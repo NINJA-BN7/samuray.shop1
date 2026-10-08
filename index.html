@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMURAY.SHOP | Premium Avtomobillar va Telefonlar Onlayn Do'koni</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        samurai: {
+                            red: '#E63946',
+                            redHover: '#C72C38',
+                            gold: '#D4AF37',
+                            dark: '#0D0F12',
+                            card: '#161920',
+                            border: '#2A2E39',
+                            accent: '#1F2430'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0F12;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(22, 25, 32, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(22, 25, 32, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(230, 57, 70, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(230, 57, 70, 0.25);
+        }
+        .neon-glow {
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.35);
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0D0F12;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2E39;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #E63946;
+        }
+        /* Page transition styles */
+        .page-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .page-content.active {
+            display: block;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="custom-scrollbar min-h-screen flex flex-col justify-between selection:bg-samurai-red selection:text-white">
+
+    <header class="sticky top-0 z-40 glass-panel border-b border-samurai-border/50">
+        <!-- Top Bar Notice -->
+        <div class="bg-gradient-to-r from-samurai-red/20 via-samurai-dark to-samurai-gold/20 py-1.5 px-4 text-xs border-b border-white/5">
+            <div class="max-w-7xl mx-auto flex justify-between items-center text-gray-300">
+                <div class="flex items-center space-x-4">
+                    <span><i class="fa-solid fa-truck-fast text-samurai-red mr-1.5"></i> O'zbekiston bo'ylab mutlaqo bepul yetkazib berish</span>
+                    <span class="hidden md:inline"><i class="fa-solid fa-shield-halved text-samurai-gold mr-1.5"></i> Rasmiy 3 yil kafolat</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="currencyToggle" onclick="toggleCurrency()" class="hover:text-samurai-gold transition font-bold px-2 py-0.5 rounded bg-white/5 hover:bg-white/10">
+                        Valyuta: <span id="currentCurrency" class="text-samurai-gold">USD ($)</span>
+                    </button>
+                    <a href="tel:+998901234567" class="hover:text-white transition font-medium"><i class="fa-solid fa-phone text-samurai-red mr-1"></i> +998 (90) 123-45-67</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+            <!-- Logo -->
+            <a href="#" onclick="navigateTo('home')" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-samurai-red to-samurai-gold flex items-center justify-center font-black text-xl text-white shadow-lg neon-glow group-hover:scale-105 transition duration-300">
+                    S
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-black tracking-wider text-white">SAMURAY<span class="text-samurai-red">.SHOP</span></span>
+                    <span class="text-[9px] uppercase tracking-widest text-samurai-gold font-semibold -mt-1">Auto & Tech Flagship</span>
+                </div>
+            </a>
+
+            <!-- Search Bar with Live Results -->
+            <div class="relative flex-1 max-w-md hidden md:block">
+                <div class="relative">
+                    <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Moshina yoki telefon qidiring (masalan: BYD, iPhone 16 Pro)..." 
+                           class="w-full bg-samurai-card/90 text-sm text-gray-200 placeholder-gray-500 rounded-full pl-11 pr-10 py-2.5 border border-samurai-border focus:outline-none focus:border-samurai-red transition">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-3 text-gray-400 hover:text-white">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </button>
+                </div>
+                <!-- Instant Search Dropdown -->
+                <div id="searchResults" class="hidden absolute left-0 right-0 top-12 glass-panel rounded-2xl shadow-2xl border border-samurai-border max-h-96 overflow-y-auto z-50 p-2"></div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden lg:flex items-center space-x-1 font-semibold text-sm">
+                <button onclick="navigateTo('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-xl text-samurai-red bg-samurai-red/10 border border-samurai-red/30 transition">
+                    <i class="fa-solid fa-house mr-2"></i>Bosh sahifa
+                </button>
+                <button onclick="navigateTo('cars')" id="nav-cars" class="nav-btn px-4 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition">
+                    <i class="fa-solid fa-car mr-2"></i>Avtomobillar
+                </button>
+                <button onclick="navigateTo('phones')" id="nav-phones" class="nav-btn px-4 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition">
+                    <i class="fa-solid fa-mobile-screen-button mr-2"></i>Telefonlar
+                </button>
+            </nav>
+
+            <!-- Actions (Wishlist & Cart & Mobile Menu Button) -->
+            <div class="flex items-center space-x-3">
+                <button onclick="openWishlistModal()" class="relative p-2.5 rounded-xl bg-samurai-card border border-samurai-border text-gray-300 hover:text-samurai-red hover:border-samurai-red transition">
+                    <i class="fa-solid fa-heart text-lg"></i>
+                    <span id="wishlistBadge" class="absolute -top-1.5 -right-1.5 bg-samurai-gold text-black text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                </button>
+
+                <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-gradient-to-r from-samurai-red to-samurai-redHover text-white font-medium flex items-center space-x-2 shadow-lg neon-glow hover:brightness-110 transition">
+                    <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    <span class="hidden sm:inline font-bold">Savat</span>
+                    <span id="cartBadge" class="bg-white text-samurai-red text-xs font-black px-2 py-0.5 rounded-full">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-samurai-card border border-samurai-border text-gray-300 hover:text-white">
+                    <i class="fa-solid fa-bars-staggered text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Search + Nav menu dropdown -->
+        <div id="mobileMenu" class="hidden lg:hidden border-t border-samurai-border px-4 py-3 space-y-3 bg-samurai-dark">
+            <div class="relative w-full">
+                <input type="text" oninput="handleSearch(this.value)" placeholder="Qidiruv..." class="w-full bg-samurai-card text-sm text-gray-200 placeholder-gray-500 rounded-xl pl-10 pr-4 py-2.5 border border-samurai-border">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400"></i>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-1">
+                <button onclick="navigateTo('home'); toggleMobileMenu()" class="px-3 py-2.5 text-center text-xs font-bold rounded-xl bg-samurai-card border border-samurai-border text-white">
+                    <i class="fa-solid fa-house block mb-1 text-samurai-red text-base"></i> Bosh sahifa
+                </button>
+                <button onclick="navigateTo('cars'); toggleMobileMenu()" class="px-3 py-2.5 text-center text-xs font-bold rounded-xl bg-samurai-card border border-samurai-border text-white">
+                    <i class="fa-solid fa-car block mb-1 text-samurai-red text-base"></i> Avtomobillar
+                </button>
+                <button onclick="navigateTo('phones'); toggleMobileMenu()" class="px-3 py-2.5 text-center text-xs font-bold rounded-xl bg-samurai-card border border-samurai-border text-white">
+                    <i class="fa-solid fa-mobile-screen-button block mb-1 text-samurai-red text-base"></i> Telefonlar
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="app" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ========================================== -->
+        <!-- PAGE 1: BOSH SAHIFA (HOME PAGE) -->
+        <!-- ========================================== -->
+        <section id="page-home" class="page-content active space-y-12">
+            
+            <!-- Hero Slider Banner -->
+            <div class="relative rounded-3xl overflow-hidden glass-panel border border-samurai-border min-h-[460px] flex items-center">
+                <div id="heroBg" class="absolute inset-0 bg-cover bg-center transition-all duration-700 filter brightness-[0.4]" style="background-image: url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80');"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-samurai-dark via-samurai-dark/80 to-transparent"></div>
+
+                <div class="relative z-10 p-6 sm:p-12 max-w-2xl space-y-5">
+                    <div class="inline-flex items-center space-x-2 bg-samurai-red/20 border border-samurai-red/40 px-3.5 py-1.5 rounded-full">
+                        <span class="w-2 h-2 rounded-full bg-samurai-red animate-ping"></span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-samurai-red" id="heroBadge">Samuray Exclusives 2026</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-black text-white leading-tight" id="heroTitle">
+                        Texnologiya va Quvvatning Mukammal Uyg'unligi
+                    </h1>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed" id="heroDesc">
+                        Eng so'nggi rusumdagi elektromobillar va flagman smartfonlarni rasmiy kafolat, eng hamyonbop narx va 0% boshlang'ich to'lovli nasiya rejasi bilan xarid qiling.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-2">
+                        <button onclick="navigateTo('cars')" class="px-7 py-3.5 rounded-2xl bg-gradient-to-r from-samurai-red to-samurai-redHover text-white font-bold text-sm shadow-xl neon-glow hover:scale-105 transition">
+                            <i class="fa-solid fa-car mr-2"></i> Avtomobillar Katalogi
+                        </button>
+                        <button onclick="navigateTo('phones')" class="px-7 py-3.5 rounded-2xl bg-samurai-card border border-samurai-border hover:border-samurai-gold text-white font-bold text-sm transition">
+                            <i class="fa-solid fa-mobile-screen-button mr-2"></i> Telefonlarni Ko'rish
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Slider Indicators -->
+                <div class="absolute bottom-6 right-6 flex space-x-2 z-20">
+                    <button onclick="setHeroSlide(0)" class="hero-dot w-3 h-3 rounded-full bg-samurai-red transition-all"></button>
+                    <button onclick="setHeroSlide(1)" class="hero-dot w-3 h-3 rounded-full bg-white/30 transition-all"></button>
+                    <button onclick="setHeroSlide(2)" class="hero-dot w-3 h-3 rounded-full bg-white/30 transition-all"></button>
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="space-y-4">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <h2 class="text-2xl font-black text-white">Asosiy Bo'limlar</h2>
+                        <p class="text-xs text-gray-400">O'zingizga kerakli premium segmentni tanlang</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Cars Banner Category -->
+                    <div onclick="navigateTo('cars')" class="group relative h-64 rounded-3xl overflow-hidden cursor-pointer glass-card border border-samurai-border">
+                        <img src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80" alt="Cars" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-60">
+                        <div class="absolute inset-0 bg-gradient-to-t from-samurai-dark via-samurai-dark/40 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                            <div>
+                                <span class="text-xs uppercase font-bold text-samurai-gold">Premium Garaj</span>
+                                <h3 class="text-2xl font-black text-white">Avtomobillar</h3>
+                                <p class="text-xs text-gray-300 mt-1">BYD, Tesla, BMW, Chevrolet va boshqalar</p>
+                            </div>
+                            <span class="w-12 h-12 rounded-2xl bg-samurai-red flex items-center justify-center text-white text-lg group-hover:translate-x-2 transition">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- Phones Banner Category -->
+                    <div onclick="navigateTo('phones')" class="group relative h-64 rounded-3xl overflow-hidden cursor-pointer glass-card border border-samurai-border">
+                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80" alt="Phones" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 opacity-60">
+                        <div class="absolute inset-0 bg-gradient-to-t from-samurai-dark via-samurai-dark/40 to-transparent"></div>
+                        <div class="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                            <div>
+                                <span class="text-xs uppercase font-bold text-samurai-red">Flagman Gadgetlar</span>
+                                <h3 class="text-2xl font-black text-white">Smartfonlar</h3>
+                                <p class="text-xs text-gray-300 mt-1">Apple iPhone, Samsung Galaxy, Xiaomi, Honor</p>
+                            </div>
+                            <span class="w-12 h-12 rounded-2xl bg-samurai-gold text-black flex items-center justify-center text-lg group-hover:translate-x-2 transition font-bold">
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="flex justify-between items-center border-b border-samurai-border pb-4">
+                    <div>
+                        <span class="text-xs uppercase font-bold text-samurai-red tracking-wider">Top Sotuvlar</span>
+                        <h2 class="text-2xl font-black text-white">Ommabop Mahsulotlar</h2>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="navigateTo('cars')" class="text-xs font-bold text-samurai-gold hover:underline">Barchasini ko'rish &rarr;</button>
+                    </div>
+                </div>
+                <div id="homeFeaturedGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-samurai-border relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-samurai-red/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="inline-flex items-center space-x-2 bg-samurai-gold/10 text-samurai-gold border border-samurai-gold/30 px-3 py-1 rounded-lg text-xs font-bold">
+                            <i class="fa-solid fa-calculator"></i>
+                            <span>Smart Kalkulyator</span>
+                        </div>
+                        <h2 class="text-3xl font-black text-white">Imtiyozli Kredit va Nasiya Kalkulyatori</h2>
+                        <p class="text-sm text-gray-400 leading-relaxed">
+                            Samuray.shop orqali istalgan mashina yoki telefonni halol va qulay shartlar bilan oylik to'lovga xarid qiling. Boshlang'ich to'lov va muddatni tanlang!
+                        </p>
+                        <div class="space-y-2 pt-2 text-xs text-gray-300">
+                            <div class="flex items-center"><i class="fa-solid fa-circle-check text-samurai-gold mr-2"></i> Ortqcha hujjatlarsiz – faqat pasport</div>
+                            <div class="flex items-center"><i class="fa-solid fa-circle-check text-samurai-gold mr-2"></i> 15 daqiqada tasdiqlash</div>
+                            <div class="flex items-center"><i class="fa-solid fa-circle-check text-samurai-gold mr-2"></i> Yashirin foizlar va peniyalarsiz</div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 bg-samurai-card/90 rounded-2xl p-6 border border-samurai-border space-y-6">
+                        <!-- Total Price Input -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-2">
+                                <span class="text-gray-300">Mahsulot qiymati:</span>
+                                <span id="calcTotalDisplay" class="text-white text-sm font-black">$25,000</span>
+                            </div>
+                            <input type="range" id="calcTotalPrice" min="1000" max="100000" step="500" value="25000" oninput="updateCalculator()" 
+                                   class="w-full accent-samurai-red cursor-pointer bg-samurai-dark h-2 rounded-lg">
+                        </div>
+
+                        <!-- Down Payment Slider -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-2">
+                                <span class="text-gray-300">Boshlang'ich to'lov (<span id="calcPercentDisplay">20</span>%):</span>
+                                <span id="calcDownDisplay" class="text-samurai-gold text-sm font-black">$5,000</span>
+                            </div>
+                            <input type="range" id="calcDownPercent" min="10" max="70" step="5" value="20" oninput="updateCalculator()" 
+                                   class="w-full accent-samurai-gold cursor-pointer bg-samurai-dark h-2 rounded-lg">
+                        </div>
+
+                        <!-- Loan Period Buttons -->
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-2">To'lov muddati (oylar):</label>
+                            <div class="grid grid-cols-4 gap-2">
+                                <button onclick="setCalcMonths(6)" class="calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-border bg-samurai-dark hover:border-samurai-red transition">6 oy</button>
+                                <button onclick="setCalcMonths(12)" class="calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-red bg-samurai-red/20 text-samurai-red transition">12 oy</button>
+                                <button onclick="setCalcMonths(24)" class="calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-border bg-samurai-dark hover:border-samurai-red transition">24 oy</button>
+                                <button onclick="setCalcMonths(36)" class="calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-border bg-samurai-dark hover:border-samurai-red transition">36 oy</button>
+                            </div>
+                        </div>
+
+                        <!-- Monthly Result Box -->
+                        <div class="bg-samurai-dark p-4 rounded-xl border border-samurai-border flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div>
+                                <span class="text-xs text-gray-400 block">Oylik to'lov miqdori:</span>
+                                <span id="calcMonthlyResult" class="text-2xl font-black text-samurai-gold">$1,833 / oy</span>
+                            </div>
+                            <button onclick="openFastOrder('Kredit arizasi', getCalcSummary())" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-samurai-red hover:bg-samurai-redHover text-white font-bold text-xs uppercase tracking-wider transition neon-glow">
+                                Ariza Qoldirish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Reviews & Trust Section -->
+            <div class="space-y-6">
+                <div class="text-center max-w-xl mx-auto">
+                    <span class="text-xs font-bold uppercase tracking-wider text-samurai-gold">Mijozlarimiz fikri</span>
+                    <h2 class="text-2xl font-black text-white mt-1">Samuray.shop Ishonchli Hamkor</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-card p-6 rounded-2xl border border-samurai-border space-y-3">
+                        <div class="flex text-samurai-gold space-x-1 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-gray-300 italic">"BYD Song Plus moshinamni shu yerdan kreditga oldim. 20 minutda barcha hujjatlarni rasmiylashtirib berishdi. Juda sifatli xizmat!"</p>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <div class="w-8 h-8 rounded-full bg-samurai-red/30 flex items-center justify-center font-bold text-xs text-white">JSh</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Javohir Sh.</h4>
+                                <span class="text-[10px] text-gray-400">Toshkent shahrida</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl border border-samurai-border space-y-3">
+                        <div class="flex text-samurai-gold space-x-1 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-gray-300 italic">"iPhone 16 Pro Max sotib oldim. Toshkent bo'yicha 2 soatda uyimga bepul yetkazib berishdi. Kafolat taloni va sovg'alari ham bor."</p>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <div class="w-8 h-8 rounded-full bg-samurai-gold/30 flex items-center justify-center font-bold text-xs text-white">SA</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Sardor A.</h4>
+                                <span class="text-[10px] text-gray-400">Samarqand</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl border border-samurai-border space-y-3">
+                        <div class="flex text-samurai-gold space-x-1 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-xs text-gray-300 italic">"Saytdagi kredit kalkulyatori juda qulay ekan. Boshida barcha to'lovlarni o'zim hisoblab, keyin salonga bordim. Narxlar aynan bir xil."</p>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center font-bold text-xs text-white">NM</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-white">Nodira M.</h4>
+                                <span class="text-[10px] text-gray-400">Farg'ona</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PAGE 2: AVTOMOBILLAR KATALOGI (CARS CATALOG) -->
+        <!-- ========================================== -->
+        <section id="page-cars" class="page-content space-y-8">
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-samurai-card/60 p-6 rounded-3xl border border-samurai-border">
+                <div>
+                    <div class="flex items-center space-x-2 text-xs text-samurai-gold font-bold uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-car-side"></i>
+                        <span>Premium Garaj</span>
+                    </div>
+                    <h1 class="text-3xl font-black text-white">Avtomobillar Katalogi</h1>
+                    <p class="text-xs text-gray-400 mt-1">Elektromobillar, Gibridlar va Premium klass mashinalar</p>
+                </div>
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <select id="carSort" onchange="filterAndRenderCars()" class="bg-samurai-dark text-xs text-gray-200 border border-samurai-border rounded-xl px-4 py-2.5 outline-none focus:border-samurai-red w-full md:w-auto">
+                        <option value="default">Saralash: Ommabopligi</option>
+                        <option value="price-asc">Narx: Arzondan qimmatga</option>
+                        <option value="price-desc">Narx: Qimmatdan arsonga</option>
+                        <option value="power-desc">Quvvat: Eng kuchli</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Filters Sidebar -->
+                <aside class="glass-panel p-6 rounded-3xl border border-samurai-border space-y-6 h-fit">
+                    <div class="flex justify-between items-center border-b border-samurai-border pb-3">
+                        <h3 class="font-bold text-white text-sm flex items-center"><i class="fa-solid fa-sliders text-samurai-red mr-2"></i> Filtrlash</h3>
+                        <button onclick="resetCarFilters()" class="text-[11px] text-samurai-gold hover:underline">Tozalash</button>
+                    </div>
+
+                    <!-- Brand Filter -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Breand / Marka</label>
+                        <div class="space-y-1.5" id="carBrandFilters">
+                            <!-- Populated dynamically JS -->
+                        </div>
+                    </div>
+
+                    <!-- Engine Type Filter -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Dvigatel Turi</label>
+                        <div class="space-y-1.5">
+                            <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
+                                <input type="checkbox" value="Electric" onchange="filterAndRenderCars()" class="car-type-filter rounded bg-samurai-dark border-samurai-border text-samurai-red focus:ring-0">
+                                <span>Elektro (EV)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
+                                <input type="checkbox" value="Hybrid" onchange="filterAndRenderCars()" class="car-type-filter rounded bg-samurai-dark border-samurai-border text-samurai-red focus:ring-0">
+                                <span>Gibrid (PHEV)</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
+                                <input type="checkbox" value="Petrol" onchange="filterAndRenderCars()" class="car-type-filter rounded bg-samurai-dark border-samurai-border text-samurai-red focus:ring-0">
+                                <span>Benzin / Dvigatel</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range Slider -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-gray-300">Maksimal Narx:</span>
+                            <span id="carPriceDisplay" class="text-samurai-gold">$120,000</span>
+                        </div>
+                        <input type="range" id="carPriceRange" min="10000" max="150000" step="5000" value="150000" oninput="filterAndRenderCars()" 
+                               class="w-full accent-samurai-red cursor-pointer bg-samurai-dark h-2 rounded-lg">
+                    </div>
+                </aside>
+
+                <!-- Cars Display Grid -->
+                <div class="lg:col-span-3">
+                    <div id="carsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+                    <!-- Empty State -->
+                    <div id="carsEmpty" class="hidden text-center py-16 space-y-3 glass-panel rounded-3xl border border-samurai-border">
+                        <i class="fa-solid fa-car-burst text-4xl text-gray-600"></i>
+                        <p class="text-sm text-gray-400">Kiritilgan filtrlar bo'yicha hech qanday avtomobil topilmadi.</p>
+                        <button onclick="resetCarFilters()" class="text-xs text-samurai-red font-bold hover:underline">Filtrlarni nolga tushirish</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PAGE 3: TELEFONLAR KATALOGI (PHONES CATALOG) -->
+        <!-- ========================================== -->
+        <section id="page-phones" class="page-content space-y-8">
+            <!-- Header Section -->
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-samurai-card/60 p-6 rounded-3xl border border-samurai-border">
+                <div>
+                    <div class="flex items-center space-x-2 text-xs text-samurai-red font-bold uppercase tracking-wider mb-1">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                        <span>Flagman Gadgetlar</span>
+                    </div>
+                    <h1 class="text-3xl font-black text-white">Smartfonlar Katalogi</h1>
+                    <p class="text-xs text-gray-400 mt-1">Rasmiy kafolatli Apple, Samsung, Xiaomi va Honor telefonlari</p>
+                </div>
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <select id="phoneSort" onchange="filterAndRenderPhones()" class="bg-samurai-dark text-xs text-gray-200 border border-samurai-border rounded-xl px-4 py-2.5 outline-none focus:border-samurai-red w-full md:w-auto">
+                        <option value="default">Saralash: Ommabopligi</option>
+                        <option value="price-asc">Narx: Arzondan qimmatga</option>
+                        <option value="price-desc">Narx: Qimmatdan arsonga</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Phone Filters Sidebar -->
+                <aside class="glass-panel p-6 rounded-3xl border border-samurai-border space-y-6 h-fit">
+                    <div class="flex justify-between items-center border-b border-samurai-border pb-3">
+                        <h3 class="font-bold text-white text-sm flex items-center"><i class="fa-solid fa-sliders text-samurai-gold mr-2"></i> Filtrlash</h3>
+                        <button onclick="resetPhoneFilters()" class="text-[11px] text-samurai-gold hover:underline">Tozalash</button>
+                    </div>
+
+                    <!-- Phone Brand Filter -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Brend</label>
+                        <div class="space-y-1.5" id="phoneBrandFilters">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                    <!-- Memory Capacity -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Xotira Hajmi</label>
+                        <div class="grid grid-cols-2 gap-2" id="phoneStorageFilters">
+                            <button onclick="toggleStorageFilter('128GB', this)" class="storage-btn text-xs font-semibold py-1.5 px-3 rounded-xl border border-samurai-border bg-samurai-dark text-gray-300">128 GB</button>
+                            <button onclick="toggleStorageFilter('256GB', this)" class="storage-btn text-xs font-semibold py-1.5 px-3 rounded-xl border border-samurai-border bg-samurai-dark text-gray-300">256 GB</button>
+                            <button onclick="toggleStorageFilter('512GB', this)" class="storage-btn text-xs font-semibold py-1.5 px-3 rounded-xl border border-samurai-border bg-samurai-dark text-gray-300">512 GB</button>
+                            <button onclick="toggleStorageFilter('1TB', this)" class="storage-btn text-xs font-semibold py-1.5 px-3 rounded-xl border border-samurai-border bg-samurai-dark text-gray-300">1 TB</button>
+                        </div>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-bold">
+                            <span class="text-gray-300">Maksimal Narx:</span>
+                            <span id="phonePriceDisplay" class="text-samurai-gold">$2,000</span>
+                        </div>
+                        <input type="range" id="phonePriceRange" min="200" max="2500" step="50" value="2500" oninput="filterAndRenderPhones()" 
+                               class="w-full accent-samurai-gold cursor-pointer bg-samurai-dark h-2 rounded-lg">
+                    </div>
+                </aside>
+
+                <!-- Phone Display Grid -->
+                <div class="lg:col-span-3">
+                    <div id="phonesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <!-- Empty State -->
+                    <div id="phonesEmpty" class="hidden text-center py-16 space-y-3 glass-panel rounded-3xl border border-samurai-border">
+                        <i class="fa-solid fa-mobile-retro text-4xl text-gray-600"></i>
+                        <p class="text-sm text-gray-400">Filtr parametri bo'yicha hech qanday smartfon topilmadi.</p>
+                        <button onclick="resetPhoneFilters()" class="text-xs text-samurai-red font-bold hover:underline">Filtrlarni nolga tushirish</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-samurai-dark border-t border-samurai-border/60 mt-16 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand Info -->
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-samurai-red to-samurai-gold flex items-center justify-center font-black text-white">S</div>
+                        <span class="text-xl font-black text-white">SAMURAY<span class="text-samurai-red">.SHOP</span></span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        O'zbekistondagi eng premium avtomobillar va flagman texnikalarning zamonaviy onlayn gipermarketi. Sifat va ishonch kafolati.
+                    </p>
+                    <div class="flex space-x-3 pt-1">
+                        <a href="#" class="w-8 h-8 rounded-lg bg-samurai-card border border-samurai-border flex items-center justify-center text-gray-300 hover:text-samurai-red transition"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-samurai-card border border-samurai-border flex items-center justify-center text-gray-300 hover:text-samurai-red transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-samurai-card border border-samurai-border flex items-center justify-center text-gray-300 hover:text-samurai-red transition"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-samurai-red pl-2">Bo'limlar</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" onclick="navigateTo('home'); return false;" class="hover:text-white transition">Bosh sahifa</a></li>
+                        <li><a href="#" onclick="navigateTo('cars'); return false;" class="hover:text-white transition">Avtomobillar Katalogi</a></li>
+                        <li><a href="#" onclick="navigateTo('phones'); return false;" class="hover:text-white transition">Smartfonlar Katalogi</a></li>
+                        <li><a href="#" onclick="openWishlistModal(); return false;" class="hover:text-white transition">Tanlanganlar</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-samurai-gold pl-2">Xizmatlar</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#" onclick="navigateTo('home'); return false;" class="hover:text-white transition">Kredit va Nasiya kalkulyatori</a></li>
+                        <li><a href="#" onclick="alert('Test-drayv uchun istalgan moshina kartochkasidagi Test-Drayv tugmasini bosing.'); return false;" class="hover:text-white transition">Avto Test-Drayv</a></li>
+                        <li><a href="#" class="hover:text-white transition">Rasmiy Kafolat shartlari</a></li>
+                        <li><a href="#" class="hover:text-white transition">Yetkazib berish xizmati</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact & Newsletter -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4 border-l-2 border-samurai-red pl-2">Bog'lanish</h4>
+                    <div class="text-xs space-y-2">
+                        <p><i class="fa-solid fa-location-dot text-samurai-red mr-2"></i> Toshkent sh., Amir Temur shox ko'chasi, 108</p>
+                        <p><i class="fa-solid fa-phone text-samurai-gold mr-2"></i> +998 (90) 123-45-67</p>
+                        <p><i class="fa-solid fa-envelope text-gray-400 mr-2"></i> info@samuray.shop</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-samurai-border/40 mt-10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500">
+                <p>&copy; 2026 SAMURAY.SHOP — Barcha huquqlar himoyalangan.</p>
+                <p class="mt-2 sm:mt-0">Ishlab chiqilgan: <span class="text-samurai-gold font-bold">Senior Web Tech</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <div id="cartDrawerOverlay" onclick="toggleCartDrawer()" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 transition-opacity"></div>
+    <div id="cartDrawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-samurai-card border-l border-samurai-border z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between">
+        <!-- Cart Header -->
+        <div class="p-5 border-b border-samurai-border flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-bag-shopping text-samurai-red text-xl"></i>
+                <h3 class="font-black text-lg text-white">Xarid Savatchasi</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div id="cartItemsList" class="flex-grow overflow-y-auto p-5 space-y-4 custom-scrollbar">
+            <!-- Dynamic Cart Content -->
+        </div>
+
+        <!-- Cart Footer / Total & Checkout Button -->
+        <div class="p-5 border-t border-samurai-border bg-samurai-dark space-y-4">
+            <div class="space-y-1 text-xs">
+                <div class="flex justify-between text-gray-400">
+                    <span>Oraliq summa:</span>
+                    <span id="cartSubtotal" class="font-bold text-white">$0</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Yetkazib berish:</span>
+                    <span class="text-emerald-400 font-bold">BEPUL</span>
+                </div>
+                <div class="flex justify-between text-base font-black text-white pt-2 border-t border-samurai-border">
+                    <span>Jami to'lov:</span>
+                    <span id="cartTotal" class="text-samurai-gold">$0</span>
+                </div>
+            </div>
+
+            <button onclick="openCheckoutModal()" id="checkoutBtn" disabled class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-samurai-red to-samurai-redHover text-white font-bold text-sm disabled:opacity-50 disabled:cursor-not-allowed shadow-lg neon-glow transition">
+                Rasmiylashtirishga O'tish
+            </button>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-samurai-card border border-samurai-border max-w-3xl w-full rounded-3xl overflow-hidden relative shadow-2xl my-8">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-samurai-red transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="detailModalContent" class="p-6">
+                <!-- Dynamic Modal Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Fast Order / Checkout Modal -->
+    <div id="orderModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-samurai-card border border-samurai-border max-w-md w-full rounded-3xl p-6 relative shadow-2xl space-y-5">
+            <button onclick="closeOrderModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-samurai-red/20 text-samurai-red flex items-center justify-center mx-auto text-xl font-bold">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h3 class="text-xl font-black text-white">Tezkor Buyurtma</h3>
+                <p id="orderModalSubtitle" class="text-xs text-gray-400">Ma'lumotlaringizni qoldiring, menejerimiz 5 minutda bog'lanadi</p>
+            </div>
+
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-3">
+                <input type="hidden" id="orderItemTitle">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">Ismingiz *</label>
+                    <input type="text" id="orderCustomerName" required placeholder="Masalan: Ali Valiyev" class="w-full bg-samurai-dark text-xs text-white border border-samurai-border rounded-xl px-4 py-3 outline-none focus:border-samurai-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">Telefon raqamingiz *</label>
+                    <input type="tel" id="orderCustomerPhone" required placeholder="+998 90 123 45 67" class="w-full bg-samurai-dark text-xs text-white border border-samurai-border rounded-xl px-4 py-3 outline-none focus:border-samurai-red">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">Manzilingiz (Shahar/Tuman)</label>
+                    <input type="text" id="orderCustomerAddress" placeholder="Masalan: Toshkent sh., Chilonzor" class="w-full bg-samurai-dark text-xs text-white border border-samurai-border rounded-xl px-4 py-3 outline-none focus:border-samurai-red">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-samurai-red hover:bg-samurai-redHover text-white font-bold text-xs uppercase tracking-wider transition shadow-lg neon-glow">
+                    Buyurtmani Tasdiqlash
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlistModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="bg-samurai-card border border-samurai-border max-w-2xl w-full rounded-3xl p-6 relative shadow-2xl space-y-4 max-h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-samurai-border pb-3">
+                <h3 class="text-lg font-black text-white flex items-center"><i class="fa-solid fa-heart text-samurai-red mr-2"></i> Saqlangan Mahsulotlar</h3>
+                <button onclick="closeWishlistModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="wishlistItemsList" class="flex-grow overflow-y-auto space-y-3 custom-scrollbar pr-1">
+                <!-- Dynamic Wishlist -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Message -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-samurai-card border border-samurai-border text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 pointer-events-none">
+        <div id="toastIcon" class="w-7 h-7 rounded-full bg-samurai-red flex items-center justify-center text-xs font-bold"><i class="fa-solid fa-check"></i></div>
+        <span id="toastMessage" class="text-xs font-semibold">Xabar matni</span>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           DATA MODELS & INITIAL STATE
+           ========================================================================== */
+        
+        // Exchange Rate 1 USD = 12,800 UZS
+        const USD_TO_UZS = 12800;
+        let currentCurrency = 'USD'; // 'USD' or 'UZS'
+
+        // Cars Database
+        const carsData = [
+            {
+                id: 'car-1',
+                brand: 'BYD',
+                title: 'BYD Song Plus EV Flagship',
+                category: 'car',
+                type: 'Electric',
+                priceUSD: 28500,
+                year: 2025,
+                acceleration: '7.9s (0-100 km/h)',
+                range: '520 km',
+                power: '204 O.S.',
+                image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
+                    'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: true,
+                description: 'Zamonaviy elektr krossover. Blade Battery xavfsizlik texnologiyasi, panorama tom va yuqori darajadagi komfoti bilan yetakchi.'
+            },
+            {
+                id: 'car-2',
+                brand: 'Tesla',
+                title: 'Tesla Model 3 Performance',
+                category: 'car',
+                type: 'Electric',
+                priceUSD: 44000,
+                year: 2026,
+                acceleration: '3.1s (0-100 km/h)',
+                range: '629 km',
+                power: '510 O.S.',
+                image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: true,
+                description: 'Aql-bovar qilmas tezlanish va eng so\'nggi avtopilot tizimi. Minimalistik salon va sport uslubi.'
+            },
+            {
+                id: 'car-3',
+                brand: 'BMW',
+                title: 'BMW i7 xDrive60 Sedan',
+                category: 'car',
+                type: 'Electric',
+                priceUSD: 115000,
+                year: 2026,
+                acceleration: '4.7s (0-100 km/h)',
+                range: '625 km',
+                power: '544 O.S.',
+                image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: false,
+                description: 'Hashamatli elektr lyuks-klass. 31-dyuymli Theatre Screen orqa ekrani va pnevmopodveska.'
+            },
+            {
+                id: 'car-4',
+                brand: 'Chevrolet',
+                title: 'Chevrolet Tahoe High Country',
+                category: 'car',
+                type: 'Petrol',
+                priceUSD: 82000,
+                year: 2025,
+                acceleration: '5.8s (0-100 km/h)',
+                range: '680 km',
+                power: '420 O.S. V8',
+                image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: true,
+                description: 'Katta va quvvatli yo\'ltanlamas. 6.2L V8 dvigateli, charm salon va 7 kishilik kenglik.'
+            },
+            {
+                id: 'car-5',
+                brand: 'Mercedes-Benz',
+                title: 'Mercedes-Benz EQE SUV 350',
+                category: 'car',
+                type: 'Electric',
+                priceUSD: 78000,
+                year: 2025,
+                acceleration: '6.2s (0-100 km/h)',
+                range: '550 km',
+                power: '292 O.S.',
+                image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: false,
+                description: 'Mercedes sifat standartlari va elektr kelajak. MBUX Hyperscreen konsoli.'
+            },
+            {
+                id: 'car-6',
+                brand: 'BYD',
+                title: 'BYD Yangwang U8 Super SUV',
+                category: 'car',
+                type: 'Hybrid',
+                priceUSD: 145000,
+                year: 2026,
+                acceleration: '3.6s (0-100 km/h)',
+                range: '1000 km',
+                power: '1197 O.S.',
+                image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80',
+                gallery: [
+                    'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=800&q=80'
+                ],
+                featured: true,
+                description: 'Suvda suza oladigan va 360 daraja buriluvchi giperelektro SUV.'
+            }
+        ];
+
+        // Smartphones Database
+        const phonesData = [
+            {
+                id: 'phone-1',
+                brand: 'Apple',
+                title: 'iPhone 16 Pro Max',
+                category: 'phone',
+                storage: '512GB',
+                priceUSD: 1480,
+                ram: '8 GB',
+                camera: '48 MP + 48 MP + 12 MP (5x Zoom)',
+                chip: 'Apple A18 Pro',
+                battery: '4685 mAh',
+                colors: ['#3A3B3C', '#E3D2C3', '#202124'],
+                image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80',
+                featured: true,
+                description: 'Titan korpus, Action Button hamda yangi Camera Control tugmasi. Videotasvirga olishda eng yuqori sifat.'
+            },
+            {
+                id: 'phone-2',
+                brand: 'Samsung',
+                title: 'Samsung Galaxy S24 Ultra',
+                category: 'phone',
+                storage: '512GB',
+                priceUSD: 1320,
+                ram: '12 GB',
+                camera: '200 MP + 50 MP + 12 MP',
+                chip: 'Snapdragon 8 Gen 3',
+                battery: '5000 mAh',
+                colors: ['#4B4E53', '#E5E4E2', '#8C9095'],
+                image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=800&q=80',
+                featured: true,
+                description: 'Galaxy AI sun\'iy intellekt xususiyatlari, o\'rnatilgan S-Pen ruchkasi va 200MP kamerasi.'
+            },
+            {
+                id: 'phone-3',
+                brand: 'Xiaomi',
+                title: 'Xiaomi 14 Ultra Leica Edition',
+                category: 'phone',
+                storage: '512GB',
+                priceUSD: 1100,
+                ram: '16 GB',
+                camera: '50 MP Leica Quad Camera',
+                chip: 'Snapdragon 8 Gen 3',
+                battery: '5300 mAh',
+                colors: ['#000000', '#FFFFFF'],
+                image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80',
+                featured: true,
+                description: 'Leica linzalari bilan professional fotografiya darajasi. 90W tezkor zaryadlash.'
+            },
+            {
+                id: 'phone-4',
+                brand: 'Apple',
+                title: 'iPhone 15 Pro',
+                category: 'phone',
+                storage: '256GB',
+                priceUSD: 1080,
+                ram: '8 GB',
+                camera: '48 MP Triple Camera',
+                chip: 'Apple A17 Pro',
+                battery: '3274 mAh',
+                colors: ['#3A3B3C', '#202124'],
+                image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=800&q=80',
+                featured: false,
+                description: 'Eng yengil Pro model. Type-C port va o\'yinlar uchun ajoyib grafik quvvat.'
+            },
+            {
+                id: 'phone-5',
+                brand: 'Honor',
+                title: 'Honor Magic 6 Pro',
+                category: 'phone',
+                storage: '512GB',
+                priceUSD: 990,
+                ram: '12 GB',
+                camera: '180 MP Periscope + 50 MP',
+                chip: 'Snapdragon 8 Gen 3',
+                battery: '5600 mAh',
+                colors: ['#1C2833', '#27AE60'],
+                image: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80',
+                featured: false,
+                description: 'O\'ta chidamli displey va bozordagi eng kuchli periskop telephoto kamera.'
+            },
+            {
+                id: 'phone-6',
+                brand: 'Samsung',
+                title: 'Samsung Galaxy Z Fold 6',
+                category: 'phone',
+                storage: '1TB',
+                priceUSD: 1850,
+                ram: '12 GB',
+                camera: '50 MP + 10 MP + 12 MP',
+                chip: 'Snapdragon 8 Gen 3',
+                battery: '4400 mAh',
+                colors: ['#2C3E50', '#BDC3C7'],
+                image: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80',
+                featured: true,
+                description: 'Buklanuvchi planshet-smartfon. Ko\'p vazifalilik uchun ideal tanlov.'
+            }
+        ];
+
+        // State Store
+        let cart = [];
+        let wishlist = [];
+        let selectedStorageFilter = null;
+        let selectedCalcMonths = 12;
+
+        /* ==========================================================================
+           CORE UTILITY FUNCTIONS
+           ========================================================================== */
+        
+        function formatPrice(amountUSD) {
+            if (currentCurrency === 'UZS') {
+                const totalUZS = amountUSD * USD_TO_UZS;
+                return totalUZS.toLocaleString('uz-UZ') + ' UZS';
+            }
+            return '$' + amountUSD.toLocaleString('en-US');
+        }
+
+        function toggleCurrency() {
+            currentCurrency = currentCurrency === 'USD' ? 'UZS' : 'USD';
+            document.getElementById('currentCurrency').innerText = currentCurrency === 'USD' ? 'USD ($)' : 'UZS (so\'m)';
+            
+            // Re-render views
+            renderHomeFeatured();
+            filterAndRenderCars();
+            filterAndRenderPhones();
+            renderCart();
+            renderWishlist();
+            updateCalculator();
+            showToast(`Valyuta ${currentCurrency} ga o'zgartirildi`, 'info');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMessage.innerText = message;
+            toastIcon.className = type === 'success' 
+                ? 'w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center text-xs font-bold'
+                : 'w-7 h-7 rounded-full bg-samurai-red flex items-center justify-center text-xs font-bold';
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        /* ==========================================================================
+           SPA NAVIGATION SYSTEM
+           ========================================================================== */
+
+        function navigateTo(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
+            // Reset nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn px-4 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/5 transition';
+            });
+
+            // Activate chosen page & nav button
+            const targetPage = document.getElementById(`page-${pageId}`);
+            if (targetPage) targetPage.classList.add('active');
+
+            const activeNavBtn = document.getElementById(`nav-${pageId}`);
+            if (activeNavBtn) {
+                activeNavBtn.className = 'nav-btn px-4 py-2 rounded-xl text-samurai-red bg-samurai-red/10 border border-samurai-red/30 transition';
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        /* ==========================================================================
+           HERO SLIDER
+           ========================================================================== */
+
+        const heroSlides = [
+            {
+                badge: 'Samuray Exclusives 2026',
+                title: 'Texnologiya va Quvvatning Mukammal Uyg\'unligi',
+                desc: 'Eng so\'nggi rusumdagi elektromobillar va flagman smartfonlarni rasmiy kafolat, eng hamyonbop narx va 0% boshlang\'ich to\'lovli nasiya rejasi bilan xarid qiling.',
+                bg: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1600&q=80'
+            },
+            {
+                badge: 'Elektromobillar Revolyutsiyasi',
+                title: 'Kelajak Avtomobillari Samuray Garajida',
+                desc: 'BYD, Tesla va BMW elektromobillariga maxsus chegirmalar hamda zaryadlash stansiyasi sovg\'aga!',
+                bg: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=1600&q=80'
+            },
+            {
+                badge: 'Flagman Gadgetlar',
+                title: 'iPhone 16 Pro Max & Galaxy S24 Ultra',
+                desc: 'Aql bovar qilmas kameralar va sun\'iy intellekt imkoniyatlari endi do\'konimizda mavjud.',
+                bg: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1600&q=80'
+            }
+        ];
+
+        let currentSlideIndex = 0;
+
+        function setHeroSlide(index) {
+            currentSlideIndex = index;
+            const slide = heroSlides[index];
+            document.getElementById('heroBg').style.backgroundImage = `url('${slide.bg}')`;
+            document.getElementById('heroBadge').innerText = slide.badge;
+            document.getElementById('heroTitle').innerText = slide.title;
+            document.getElementById('heroDesc').innerText = slide.desc;
+
+            document.querySelectorAll('.hero-dot').forEach((dot, idx) => {
+                dot.className = idx === index 
+                    ? 'hero-dot w-3 h-3 rounded-full bg-samurai-red transition-all' 
+                    : 'hero-dot w-3 h-3 rounded-full bg-white/30 transition-all';
+            });
+        }
+
+        setInterval(() => {
+            currentSlideIndex = (currentSlideIndex + 1) % heroSlides.length;
+            setHeroSlide(currentSlideIndex);
+        }, 6000);
+
+        /* ==========================================================================
+           LIVE SEARCH FUNCTIONALITY
+           ========================================================================== */
+
+        function handleSearch(query) {
+            const resultsContainer = document.getElementById('searchResults');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            if (!query || query.trim() === '') {
+                resultsContainer.classList.add('hidden');
+                clearBtn.classList.add('hidden');
+                return;
+            }
+
+            clearBtn.classList.remove('hidden');
+            const cleanQ = query.toLowerCase().trim();
+            
+            const allProducts = [...carsData, ...phonesData];
+            const filtered = allProducts.filter(p => 
+                p.title.toLowerCase().includes(cleanQ) || 
+                p.brand.toLowerCase().includes(cleanQ)
+            );
+
+            if (filtered.length === 0) {
+                resultsContainer.innerHTML = `<div class="p-4 text-xs text-center text-gray-400">Hech qanday natija topilmadi</div>`;
+            } else {
+                resultsContainer.innerHTML = filtered.map(item => `
+                    <div onclick="openProductDetail('${item.id}'); clearSearch();" class="p-2.5 hover:bg-samurai-card/80 rounded-xl flex items-center space-x-3 cursor-pointer transition border border-transparent hover:border-samurai-border">
+                        <img src="${item.image}" alt="${item.title}" class="w-10 h-10 object-cover rounded-lg">
+                        <div class="flex-grow">
+                            <h4 class="text-xs font-bold text-white">${item.title}</h4>
+                            <span class="text-[10px] text-gray-400 uppercase">${item.brand} • ${item.category === 'car' ? 'Avtomobil' : 'Smartfon'}</span>
+                        </div>
+                        <span class="text-xs font-bold text-samurai-gold">${formatPrice(item.priceUSD)}</span>
+                    </div>
+                `).join('');
+            }
+
+            resultsContainer.classList.remove('hidden');
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchResults').classList.add('hidden');
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+        }
+
+        /* ==========================================================================
+           HOME PAGE FEATURED RENDERING
+           ========================================================================== */
+
+        function renderHomeFeatured() {
+            const featuredContainer = document.getElementById('homeFeaturedGrid');
+            const featuredItems = [...carsData.filter(c => c.featured), ...phonesData.filter(p => p.featured)].slice(0, 4);
+
+            featuredContainer.innerHTML = featuredItems.map(item => createProductCardHTML(item)).join('');
+        }
+
+        function createProductCardHTML(item) {
+            const isCar = item.category === 'car';
+            const isSaved = wishlist.some(w => w.id === item.id);
+
+            return `
+                <div class="glass-card rounded-2xl overflow-hidden border border-samurai-border flex flex-col justify-between group">
+                    <div class="relative h-48 overflow-hidden bg-samurai-dark">
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        
+                        <!-- Badges -->
+                        <span class="absolute top-3 left-3 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md ${isCar ? 'bg-samurai-red text-white' : 'bg-samurai-gold text-black'} shadow">
+                            ${isCar ? item.type : item.storage}
+                        </span>
+
+                        <button onclick="toggleWishlist('${item.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full glass-panel flex items-center justify-center text-xs ${isSaved ? 'text-samurai-red' : 'text-gray-300'} hover:text-samurai-red transition">
+                            <i class="fa-solid fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="p-4 space-y-3 flex-grow flex flex-col justify-between">
+                        <div>
+                            <span class="text-[10px] uppercase font-bold text-gray-400 tracking-wider">${item.brand}</span>
+                            <h3 class="text-sm font-bold text-white hover:text-samurai-red transition cursor-pointer line-clamp-1" onclick="openProductDetail('${item.id}')">${item.title}</h3>
+                            
+                            <!-- Key Specs pill -->
+                            <div class="mt-2 text-[11px] text-gray-400 space-y-1">
+                                ${isCar 
+                                    ? `<p><i class="fa-solid fa-bolt text-samurai-gold mr-1"></i> ${item.power} • ${item.acceleration}</p>`
+                                    : `<p><i class="fa-solid fa-microchip text-samurai-red mr-1"></i> ${item.chip} • ${item.ram}</p>`
+                                }
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-samurai-border/50 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-gray-400 block">Narx:</span>
+                                <span class="text-sm font-black text-white">${formatPrice(item.priceUSD)}</span>
+                            </div>
+
+                            <div class="flex space-x-1.5">
+                                <button onclick="openProductDetail('${item.id}')" title="Batafsil" class="p-2 rounded-xl bg-samurai-card border border-samurai-border hover:border-white text-gray-300 hover:text-white transition">
+                                    <i class="fa-solid fa-eye text-xs"></i>
+                                </button>
+                                <button onclick="addToCart('${item.id}')" title="Savatga qo'shish" class="p-2 rounded-xl bg-samurai-red hover:bg-samurai-redHover text-white transition shadow neon-glow">
+                                    <i class="fa-solid fa-cart-plus text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ==========================================================================
+           CARS PAGE LOGIC & FILTERS
+           ========================================================================== */
+
+        function initCarFilters() {
+            const brands = [...new Set(carsData.map(c => c.brand))];
+            const container = document.getElementById('carBrandFilters');
+            container.innerHTML = brands.map(b => `
+                <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
+                    <input type="checkbox" value="${b}" onchange="filterAndRenderCars()" class="car-brand-filter rounded bg-samurai-dark border-samurai-border text-samurai-red focus:ring-0">
+                    <span>${b}</span>
+                </label>
+            `).join('');
+        }
+
+        function filterAndRenderCars() {
+            const maxPrice = parseFloat(document.getElementById('carPriceRange').value);
+            document.getElementById('carPriceDisplay').innerText = formatPrice(maxPrice);
+
+            const selectedBrands = Array.from(document.querySelectorAll('.car-brand-filter:checked')).map(cb => cb.value);
+            const selectedTypes = Array.from(document.querySelectorAll('.car-type-filter:checked')).map(cb => cb.value);
+            const sortMode = document.getElementById('carSort').value;
+
+            let filtered = carsData.filter(car => {
+                const matchesPrice = car.priceUSD <= maxPrice;
+                const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(car.brand);
+                const matchesType = selectedTypes.length === 0 || selectedTypes.includes(car.type);
+                return matchesPrice && matchesBrand && matchesType;
+            });
+
+            // Sorting
+            if (sortMode === 'price-asc') filtered.sort((a,b) => a.priceUSD - b.priceUSD);
+            if (sortMode === 'price-desc') filtered.sort((a,b) => b.priceUSD - a.priceUSD);
+
+            const grid = document.getElementById('carsGrid');
+            const empty = document.getElementById('carsEmpty');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                grid.innerHTML = filtered.map(item => createProductCardHTML(item)).join('');
+            }
+        }
+
+        function resetCarFilters() {
+            document.querySelectorAll('.car-brand-filter, .car-type-filter').forEach(cb => cb.checked = false);
+            document.getElementById('carPriceRange').value = 150000;
+            document.getElementById('carSort').value = 'default';
+            filterAndRenderCars();
+        }
+
+        /* ==========================================================================
+           PHONES PAGE LOGIC & FILTERS
+           ========================================================================== */
+
+        function initPhoneFilters() {
+            const brands = [...new Set(phonesData.map(p => p.brand))];
+            const container = document.getElementById('phoneBrandFilters');
+            container.innerHTML = brands.map(b => `
+                <label class="flex items-center space-x-2 text-xs text-gray-300 cursor-pointer">
+                    <input type="checkbox" value="${b}" onchange="filterAndRenderPhones()" class="phone-brand-filter rounded bg-samurai-dark border-samurai-border text-samurai-gold focus:ring-0">
+                    <span>${b}</span>
+                </label>
+            `).join('');
+        }
+
+        function toggleStorageFilter(size, btn) {
+            if (selectedStorageFilter === size) {
+                selectedStorageFilter = null;
+                btn.classList.remove('border-samurai-gold', 'text-samurai-gold', 'bg-samurai-gold/10');
+            } else {
+                document.querySelectorAll('.storage-btn').forEach(b => b.classList.remove('border-samurai-gold', 'text-samurai-gold', 'bg-samurai-gold/10'));
+                selectedStorageFilter = size;
+                btn.classList.add('border-samurai-gold', 'text-samurai-gold', 'bg-samurai-gold/10');
+            }
+            filterAndRenderPhones();
+        }
+
+        function filterAndRenderPhones() {
+            const maxPrice = parseFloat(document.getElementById('phonePriceRange').value);
+            document.getElementById('phonePriceDisplay').innerText = formatPrice(maxPrice);
+
+            const selectedBrands = Array.from(document.querySelectorAll('.phone-brand-filter:checked')).map(cb => cb.value);
+            const sortMode = document.getElementById('phoneSort').value;
+
+            let filtered = phonesData.filter(phone => {
+                const matchesPrice = phone.priceUSD <= maxPrice;
+                const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(phone.brand);
+                const matchesStorage = !selectedStorageFilter || phone.storage === selectedStorageFilter;
+                return matchesPrice && matchesBrand && matchesStorage;
+            });
+
+            if (sortMode === 'price-asc') filtered.sort((a,b) => a.priceUSD - b.priceUSD);
+            if (sortMode === 'price-desc') filtered.sort((a,b) => b.priceUSD - a.priceUSD);
+
+            const grid = document.getElementById('phonesGrid');
+            const empty = document.getElementById('phonesEmpty');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                grid.innerHTML = filtered.map(item => createProductCardHTML(item)).join('');
+            }
+        }
+
+        function resetPhoneFilters() {
+            document.querySelectorAll('.phone-brand-filter').forEach(cb => cb.checked = false);
+            document.querySelectorAll('.storage-btn').forEach(b => b.classList.remove('border-samurai-gold', 'text-samurai-gold', 'bg-samurai-gold/10'));
+            selectedStorageFilter = null;
+            document.getElementById('phonePriceRange').value = 2500;
+            document.getElementById('phoneSort').value = 'default';
+            filterAndRenderPhones();
+        }
+
+        /* ==========================================================================
+           CREDIT CALCULATOR LOGIC
+           ========================================================================== */
+
+        function setCalcMonths(months) {
+            selectedCalcMonths = months;
+            document.querySelectorAll('.calc-month-btn').forEach(btn => {
+                if (btn.innerText.includes(months)) {
+                    btn.className = 'calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-red bg-samurai-red/20 text-samurai-red transition';
+                } else {
+                    btn.className = 'calc-month-btn py-2 text-xs font-bold rounded-xl border border-samurai-border bg-samurai-dark hover:border-samurai-red transition';
+                }
+            });
+            updateCalculator();
+        }
+
+        function updateCalculator() {
+            const total = parseFloat(document.getElementById('calcTotalPrice').value);
+            const percent = parseFloat(document.getElementById('calcDownPercent').value);
+
+            const downPayment = (total * percent) / 100;
+            const remainingLoan = total - downPayment;
+            
+            // Interest rate 18% annual
+            const totalInterest = remainingLoan * 0.18 * (selectedCalcMonths / 12);
+            const monthlyPaymentUSD = Math.round((remainingLoan + totalInterest) / selectedCalcMonths);
+
+            document.getElementById('calcTotalDisplay').innerText = formatPrice(total);
+            document.getElementById('calcPercentDisplay').innerText = percent;
+            document.getElementById('calcDownDisplay').innerText = formatPrice(Math.round(downPayment));
+            document.getElementById('calcMonthlyResult').innerText = formatPrice(monthlyPaymentUSD) + ' / oy';
+        }
+
+        function getCalcSummary() {
+            const total = formatPrice(parseFloat(document.getElementById('calcTotalPrice').value));
+            const monthly = document.getElementById('calcMonthlyResult').innerText;
+            return `Loyiha kalkulyatori: Umumiy ${total}, Muddat ${selectedCalcMonths} oy (${monthly})`;
+        }
+
+        /* ==========================================================================
+           CART & WISHLIST SYSTEM
+           ========================================================================== */
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const overlay = document.getElementById('cartDrawerOverlay');
+            
+            drawer.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function addToCart(productId) {
+            const allProducts = [...carsData, ...phonesData];
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            renderCart();
+            showToast(`${product.title} savatga qo'shildi`);
+        }
+
+        function updateCartQty(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += change;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cartItemsList');
+            const badge = document.getElementById('cartBadge');
+            const subtotalEl = document.getElementById('cartSubtotal');
+            const totalEl = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+
+            const totalItemsCount = cart.reduce((acc, i) => acc + i.quantity, 0);
+            badge.innerText = totalItemsCount;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 space-y-3">
+                        <i class="fa-solid fa-basket-shopping text-4xl text-gray-600"></i>
+                        <p class="text-xs text-gray-400">Savat hali bo'sh</p>
+                    </div>
+                `;
+                subtotalEl.innerText = formatPrice(0);
+                totalEl.innerText = formatPrice(0);
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            checkoutBtn.disabled = false;
+            let sumUSD = 0;
+
+            container.innerHTML = cart.map(item => {
+                const itemTotal = item.priceUSD * item.quantity;
+                sumUSD += itemTotal;
+
+                return `
+                    <div class="p-3 bg-samurai-dark rounded-2xl border border-samurai-border flex items-center justify-between space-x-3">
+                        <img src="${item.image}" alt="${item.title}" class="w-12 h-12 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <h4 class="text-xs font-bold text-white line-clamp-1">${item.title}</h4>
+                            <span class="text-xs text-samurai-gold font-bold">${formatPrice(item.priceUSD)}</span>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-samurai-card border border-samurai-border rounded-xl p-1">
+                            <button onclick="updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded-lg bg-samurai-dark hover:bg-samurai-red text-white text-xs flex items-center justify-center transition">-</button>
+                            <span class="text-xs font-bold text-white px-1">${item.quantity}</span>
+                            <button onclick="updateCartQty('${item.id}', 1)" class="w-6 h-6 rounded-lg bg-samurai-dark hover:bg-samurai-red text-white text-xs flex items-center justify-center transition">+</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            subtotalEl.innerText = formatPrice(sumUSD);
+            totalEl.innerText = formatPrice(sumUSD);
+        }
+
+        function toggleWishlist(productId) {
+            const allProducts = [...carsData, ...phonesData];
+            const product = allProducts.find(p => p.id === productId);
+
+            const index = wishlist.findIndex(w => w.id === productId);
+            if (index >= 0) {
+                wishlist.splice(index, 1);
+                showToast(`Saqlanganlardan olib tashlandi`, 'info');
+            } else {
+                wishlist.push(product);
+                showToast(`Tanlanganlarga qo'shildi`);
+            }
+
+            document.getElementById('wishlistBadge').innerText = wishlist.length;
+            renderHomeFeatured();
+            filterAndRenderCars();
+            filterAndRenderPhones();
+            renderWishlist();
+        }
+
+        function openWishlistModal() {
+            renderWishlist();
+            document.getElementById('wishlistModal').classList.remove('hidden');
+        }
+
+        function closeWishlistModal() {
+            document.getElementById('wishlistModal').classList.add('hidden');
+        }
+
+        function renderWishlist() {
+            const container = document.getElementById('wishlistItemsList');
+            if (wishlist.length === 0) {
+                container.innerHTML = `<p class="text-xs text-gray-400 text-center py-8">Tanlangan mahsulotlar mavjud emas.</p>`;
+                return;
+            }
+
+            container.innerHTML = wishlist.map(item => `
+                <div class="p-3 bg-samurai-dark rounded-2xl border border-samurai-border flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <img src="${item.image}" alt="${item.title}" class="w-12 h-12 object-cover rounded-xl">
+                        <div>
+                            <h4 class="text-xs font-bold text-white">${item.title}</h4>
+                            <span class="text-xs text-samurai-gold font-bold">${formatPrice(item.priceUSD)}</span>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="addToCart('${item.id}')" class="px-3 py-1.5 rounded-xl bg-samurai-red text-white text-xs font-bold">Savatga</button>
+                        <button onclick="toggleWishlist('${item.id}')" class="p-1.5 text-gray-400 hover:text-samurai-red"><i class="fa-solid fa-trash text-xs"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /* ==========================================================================
+           PRODUCT DETAIL MODAL & ORDER
+           ========================================================================== */
+
+        function openProductDetail(productId) {
+            const allProducts = [...carsData, ...phonesData];
+            const item = allProducts.find(p => p.id === productId);
+            if (!item) return;
+
+            const isCar = item.category === 'car';
+            const modalContent = document.getElementById('detailModalContent');
+
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <img src="${item.image}" alt="${item.title}" class="w-full h-64 object-cover rounded-2xl border border-samurai-border">
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-xs uppercase font-bold text-samurai-gold">${item.brand} • ${isCar ? 'Avtomobil' : 'Smartfon'}</span>
+                            <h2 class="text-2xl font-black text-white">${item.title}</h2>
+                            <span class="text-xl font-black text-samurai-red block mt-1">${formatPrice(item.priceUSD)}</span>
+                        </div>
+
+                        <p class="text-xs text-gray-300 leading-relaxed">${item.description}</p>
+
+                        <!-- Tech specs table -->
+                        <div class="bg-samurai-dark p-3 rounded-xl border border-samurai-border text-xs space-y-1.5">
+                            ${isCar ? `
+                                <div class="flex justify-between"><span class="text-gray-400">Tezlanish:</span> <span class="font-bold text-white">${item.acceleration}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Masofa:</span> <span class="font-bold text-white">${item.range}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Quvvat:</span> <span class="font-bold text-white">${item.power}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Yil:</span> <span class="font-bold text-white">${item.year}</span></div>
+                            ` : `
+                                <div class="flex justify-between"><span class="text-gray-400">Protsessor:</span> <span class="font-bold text-white">${item.chip}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">RAM:</span> <span class="font-bold text-white">${item.ram}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Kamera:</span> <span class="font-bold text-white">${item.camera}</span></div>
+                                <div class="flex justify-between"><span class="text-gray-400">Xotira:</span> <span class="font-bold text-white">${item.storage}</span></div>
+                            `}
+                        </div>
+
+                        <div class="flex space-x-3 pt-2">
+                            <button onclick="addToCart('${item.id}')" class="flex-1 py-3 rounded-xl bg-samurai-red hover:bg-samurai-redHover text-white font-bold text-xs uppercase tracking-wider transition shadow neon-glow">
+                                Savatga Qo'shish
+                            </button>
+                            <button onclick="closeDetailModal(); openFastOrder('${item.title}', '${formatPrice(item.priceUSD)}')" class="flex-1 py-3 rounded-xl bg-samurai-card border border-samurai-gold text-samurai-gold hover:bg-samurai-gold hover:text-black font-bold text-xs uppercase tracking-wider transition">
+                                1 Bosishda Xarid
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        function openFastOrder(itemTitle, subtitleInfo) {
+            document.getElementById('orderItemTitle').value = itemTitle;
+            document.getElementById('orderModalSubtitle').innerText = `${itemTitle} (${subtitleInfo || ''})`;
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        function openCheckoutModal() {
+            toggleCartDrawer();
+            const summary = cart.map(i => `${i.title} (${i.quantity}x)`).join(', ');
+            openFastOrder('Savatdagi mahsulotlar', summary);
+        }
+
+        function handleOrderSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('orderCustomerName').value;
+            const phone = document.getElementById('orderCustomerPhone').value;
+            const item = document.getElementById('orderItemTitle').value;
+
+            closeOrderModal();
+            cart = [];
+            renderCart();
+
+            showToast(`Rahmat ${name}! Buyurtmangiz qabul qilindi. Operatorimiz bog'lanadi.`);
+            document.getElementById('orderForm').reset();
+        }
+
+        /* ==========================================================================
+           INITIALIZATION ON LOAD
+           ========================================================================== */
+        window.onload = function() {
+            renderHomeFeatured();
+            initCarFilters();
+            filterAndRenderCars();
+            initPhoneFilters();
+            filterAndRenderPhones();
+            updateCalculator();
+        };
+    </script>
+</body>
+</html>
